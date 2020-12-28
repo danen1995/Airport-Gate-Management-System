@@ -10,7 +10,9 @@ import com.airport.mgmt.domain.Account;
 import org.springframework.data.repository.*;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface AccountRepository extends CrudRepository<Account, Long> {
-
+    Optional<Account> findByUsername(String username);
 }

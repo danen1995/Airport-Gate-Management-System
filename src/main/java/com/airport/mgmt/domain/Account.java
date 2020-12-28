@@ -51,8 +51,21 @@ public class Account {
 
     @ElementCollection
     // ----------- << attribute.annotations@AAAAAAF2pMy3zNAYB28= >>
+    @Enumerated(EnumType.STRING)
     // ----------- >>
     private Set<Role> roles = new HashSet<>();
+
+    @NotNull
+    @Column(nullable = false)
+    // ----------- << attribute.annotations@AAAAAAF2qxbv6lkYGoo= >>
+    // ----------- >>
+    private String username;
+
+    @NotNull
+    @Column(nullable = false)
+    // ----------- << attribute.annotations@AAAAAAF2qyg1+VmGg7U= >>
+    // ----------- >>
+    private String password;
 
     // ----------- << getId.annotations@AAAAAAF2pMmOZc4XaLY= >>
     // ----------- >>

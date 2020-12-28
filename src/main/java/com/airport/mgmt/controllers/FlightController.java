@@ -8,18 +8,16 @@ package com.airport.mgmt.controllers;
 
 import com.airport.mgmt.domain.Flight;
 import com.airport.mgmt.services.FlightService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @Transactional
 @RestController
 @RequestMapping("/flights")
 public class FlightController {
-    private static final Logger logger = LoggerFactory.getLogger(FlightController.class);
-
     private final FlightService flightService;
 
     public FlightController(FlightService flightService) {
@@ -29,7 +27,9 @@ public class FlightController {
     @PostMapping("assignGate")
     @ResponseStatus(HttpStatus.OK)
     public Flight assignGate(@RequestParam String flightNumber) {
+        log.info("Assigning gate to flight: {}", flightNumber);
         return flightService.assignGate(flightNumber);
+
     }
 
 }

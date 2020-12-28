@@ -32,15 +32,14 @@ public class GateService {
         List<Gate> availableGates =
                 repository.findAllByAvailableFromLessThanAndAvailableToGreaterThanAndInUse(LocalTime.now(), LocalTime.now(), false);
         if (!availableGates.isEmpty()) return availableGates.get(0);
-        else throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cannot find available gate|");
+        else throw new ResponseStatusException(HttpStatus.NOT_FOUND, "All gates are busy at the moment!");
     }
 
     public void makeGateAvailable(String gateName) {
         Gate gate = repository.findByGateName(gateName)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                "Cannot find Gate by " + gateName));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cannot find Gate by " + gateName));
 
-        if(!gate.isInUse()) throw new AirportException("Gate is already available");
+        if(!gate.isInUse()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The requested gate was already available and waits for a plane!");
 
         gate.setInUse(false);
     }
@@ -49,6 +48,7 @@ public class GateService {
         Gate gate = repository.findByGateName(gateName)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         "Cannot find Gate by " + gateName));
+
         gate.setAvailableFrom(availableFrom);
         gate.setAvailableTo(availableTo);
     }

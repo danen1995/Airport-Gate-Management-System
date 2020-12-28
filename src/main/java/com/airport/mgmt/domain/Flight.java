@@ -90,5 +90,8 @@ public class Flight {
     }
 
 // ----------- << class.extras@AAAAAAF2pLePB8kMgsI= >>
+    public boolean isAssignedToGate(){
+        return getGate() != null;
+    }
 // ----------- >>
 }

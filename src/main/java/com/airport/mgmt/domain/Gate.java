@@ -5,7 +5,6 @@
 */
 package com.airport.mgmt.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,6 +17,7 @@ import javax.validation.constraints.*;
 
 
 // ----------- << imports@AAAAAAF2pLd8f8jiOoc= >>
+import com.fasterxml.jackson.annotation.JsonIgnore;
 // ----------- >>
 
 @Entity

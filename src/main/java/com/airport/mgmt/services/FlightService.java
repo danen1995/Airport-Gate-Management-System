@@ -9,12 +9,14 @@ package com.airport.mgmt.services;
 import com.airport.mgmt.domain.Flight;
 import com.airport.mgmt.domain.Gate;
 import com.airport.mgmt.repositories.FlightRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+@Slf4j
 @Service
 public class FlightService {
     private static final Logger logger = LoggerFactory.getLogger(FlightService.class);
@@ -35,11 +37,19 @@ public class FlightService {
     }
 
     public Flight assignGate(String flightNumber) {
-//        TODO: What if flight is already assigned to gate?
         Flight flight = findByFlightNumber(flightNumber);
+
+        if(flight.isAssignedToGate()) {
+            log.info("Relocating the flight: {} from the gate: {} to a new gate", flightNumber, flight.getGate().getGateName());
+            gateService.makeGateAvailable(flight.getGate().getGateName());
+        }
+
         Gate gate = gateService.findAvailableGate();
+
         flight.linkGate(gate);
         gate.setInUse(true);
+        log.info("Gate: {} is assigned to flight: {}", gate.getGateName(), flightNumber);
+
         return flight;
     }
 }
