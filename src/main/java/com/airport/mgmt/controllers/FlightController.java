@@ -24,6 +24,16 @@ public class FlightController {
         this.flightService = flightService;
     }
 
+    /**
+     * Returns an Flight object with assigned gate. The url argument must
+     * specify a flight number.
+     * <p>
+     * This method assigns the gate to particular flight.
+     *
+     * @param  flightNumber  flight number of a flight
+     * @return               flight object with assigned gate
+     * @see                  Flight
+     */
     @PostMapping("assignGate")
     @ResponseStatus(HttpStatus.OK)
     public Flight assignGate(@RequestParam String flightNumber) {

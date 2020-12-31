@@ -9,6 +9,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * AccountUserDetailsService is implementation of UserDetailsService interface.
+ * It loads user-specific data from configured back end service.
+ *
+ */
 @Service
 @Transactional
 public class AccountUserDetailsService implements UserDetailsService {

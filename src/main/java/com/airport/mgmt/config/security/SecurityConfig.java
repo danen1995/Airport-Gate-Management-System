@@ -30,7 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .sessionCreationPolicy(SessionCreationPolicy.ALWAYS).and()
                 .authorizeRequests()
                     .antMatchers(HttpMethod.POST, "gates/updateAvailability")
-                        .hasRole("administrator")
+                        .hasRole("ADMIN")
                     .anyRequest().authenticated()
                     .and().httpBasic();
     }

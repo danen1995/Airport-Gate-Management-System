@@ -36,6 +36,14 @@ public class FlightService {
                         "Cannot find Flight by " + flightNumber));
     }
 
+    /**
+     * This method assigns the gate to particular flight. If flight was already
+     * located on the gate, then flight is being relocated to a new gate.
+     *
+     * @param  flightNumber  flight number of a flight
+     * @return               flight object with assigned gate
+     * @see                  Flight
+     */
     public Flight assignGate(String flightNumber) {
         Flight flight = findByFlightNumber(flightNumber);
         Gate gate = gateService.findAvailableGate();

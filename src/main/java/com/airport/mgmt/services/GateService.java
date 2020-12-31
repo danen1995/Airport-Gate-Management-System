@@ -8,6 +8,7 @@ package com.airport.mgmt.services;
 
 import com.airport.mgmt.domain.Gate;
 import com.airport.mgmt.repositories.GateRepository;
+import com.airport.mgmt.resources.GateAvailabilityResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,14 @@ public class GateService {
         this.repository = repository;
     }
 
+    /**
+     * Search for all available gates and returns the first available gate.
+     * Gate availability is based on availableFrom and availableTo fields, as well as inUse
+     * property which specifies if gate is busy with another plane.
+     *
+     * @return      available gate
+     * @see         Gate
+     */
     public Gate findAvailableGate() {
         List<Gate> availableGates =
                 repository.findAllByAvailableFromLessThanAndAvailableToGreaterThanAndInUse(LocalTime.now(), LocalTime.now(), false);
@@ -34,6 +43,12 @@ public class GateService {
         else throw new ResponseStatusException(HttpStatus.NOT_FOUND, "All gates are busy at the moment!");
     }
 
+    /**
+     * Updating gate as available. The url argument must specify a gate id.
+     * If the gate was already available, returns bad request.
+     *
+     * @param  gateId  id of particular gate
+     */
     public void makeGateAvailable(Long gateId) {
         Gate gate = repository.findById(gateId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cannot find Gate by " + gateId));
@@ -43,12 +58,17 @@ public class GateService {
         gate.setInUse(false);
     }
 
-    public void updateGateTimeAvailability(String gateName, LocalTime availableFrom, LocalTime availableTo) {
-        Gate gate = repository.findByGateName(gateName)
+    /**
+     * Updating gate time availability. Certain gates are available between certain times only.
+     *
+     * @param  resource  wrapper object specifying gateName and new time availability
+     */
+    public void updateGateTimeAvailability(GateAvailabilityResource resource) {
+        Gate gate = repository.findByGateName(resource.getGateName())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        "Cannot find Gate by " + gateName));
+                        "Cannot find Gate by " + resource.getGateName()));
 
-        gate.setAvailableFrom(availableFrom);
-        gate.setAvailableTo(availableTo);
+        gate.setAvailableFrom(resource.getAvailableFrom());
+        gate.setAvailableTo(resource.getAvailableTo());
     }
 }

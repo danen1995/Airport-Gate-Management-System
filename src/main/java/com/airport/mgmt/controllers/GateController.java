@@ -6,11 +6,10 @@
 
 package com.airport.mgmt.controllers;
 
+import com.airport.mgmt.domain.Flight;
 import com.airport.mgmt.resources.GateAvailabilityResource;
 import com.airport.mgmt.services.GateService;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +27,11 @@ public class GateController {
         this.service = service;
     }
 
+    /**
+     * Updating gate as available. The url argument must specify a gate id.
+     *
+     * @param  gateId  id of particular gate
+     */
     @PostMapping("makeAvailable")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void makeGateAvailable(@RequestParam Long gateId){
@@ -36,10 +40,18 @@ public class GateController {
 
     }
 
+    /**
+     * Updating gate time availability. Certain gates are available between certain times only.
+     * Only administrators are able to update time availability.
+     * The url argument is a resource object that serves like a wrapper class
+     * for gateName and new time availability for that particular gate.
+     *
+     * @param  resource  wrapper object specifying gateName and new time availability
+     */
     @PostMapping("updateAvailability")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateGateTimeAvailability(@RequestBody GateAvailabilityResource resource){
-        service.updateGateTimeAvailability(resource.getGateName(), resource.getAvailableFrom(), resource.getAvailableTo());
+        service.updateGateTimeAvailability(resource);
         log.info("Gate time availability is updated. Gate {} is now available from {} to {}", resource.getGateName(), resource.getAvailableFrom(), resource.getAvailableTo());
     }
 }
