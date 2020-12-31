@@ -1053,9 +1053,9 @@
 											"font": "Arial;13;0",
 											"left": 336,
 											"top": -96,
-											"width": 225.83056640625,
+											"width": 463.93115234375,
 											"height": 13,
-											"text": "{archetype.persistence.persistent=true}",
+											"text": "{archetype.persistence.persistent=true, archetype.spring.excludeController=true}",
 											"horizontalAlignment": 1
 										}
 									],
@@ -1457,6 +1457,17 @@
 												"$ref": "AAAAAAF2pMmOZc4XaLY="
 											},
 											"name": "archetype.persistence.persistent",
+											"kind": "boolean",
+											"value": true,
+											"checked": true
+										},
+										{
+											"_type": "Tag",
+											"_id": "AAAAAAF2q0frb1p7vPg=",
+											"_parent": {
+												"$ref": "AAAAAAF2pMmOZc4XaLY="
+											},
+											"name": "archetype.spring.excludeController",
 											"kind": "boolean",
 											"value": true,
 											"checked": true

@@ -7,7 +7,6 @@
 package com.airport.mgmt.services;
 
 import com.airport.mgmt.domain.Gate;
-import com.airport.mgmt.exceptions.AirportException;
 import com.airport.mgmt.repositories.GateRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,9 +34,9 @@ public class GateService {
         else throw new ResponseStatusException(HttpStatus.NOT_FOUND, "All gates are busy at the moment!");
     }
 
-    public void makeGateAvailable(String gateName) {
-        Gate gate = repository.findByGateName(gateName)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cannot find Gate by " + gateName));
+    public void makeGateAvailable(Long gateId) {
+        Gate gate = repository.findById(gateId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cannot find Gate by " + gateId));
 
         if(!gate.isInUse()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The requested gate was already available and waits for a plane!");
 

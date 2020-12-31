@@ -38,7 +38,7 @@ public class Flight {
     private Long version;
 
     @NotNull
-    @Column(nullable = false)
+    @Column(unique = true, nullable = false)
     // ----------- << attribute.annotations@AAAAAAF2pLm808ovh1M= >>
     // ----------- >>
     private String flightNumber;

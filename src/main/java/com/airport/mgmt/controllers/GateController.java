@@ -30,9 +30,9 @@ public class GateController {
 
     @PostMapping("makeAvailable")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void makeGateAvailable(@RequestParam String gateName){
-        service.makeGateAvailable(gateName);
-        log.info("Gate {} is now available", gateName);
+    public void makeGateAvailable(@RequestParam Long gateId){
+        service.makeGateAvailable(gateId);
+        log.info("Gate {} is now available", gateId);
 
     }
 

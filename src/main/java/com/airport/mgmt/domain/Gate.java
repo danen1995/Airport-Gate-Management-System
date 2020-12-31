@@ -39,7 +39,7 @@ public class Gate {
     private Long version;
 
     @NotNull
-    @Column(nullable = false)
+    @Column(unique = true, nullable = false)
     // ----------- << attribute.annotations@AAAAAAF2pLmNvcoXWJM= >>
     // ----------- >>
     private String gateName;

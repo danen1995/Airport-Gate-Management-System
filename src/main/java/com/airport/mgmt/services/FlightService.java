@@ -38,13 +38,12 @@ public class FlightService {
 
     public Flight assignGate(String flightNumber) {
         Flight flight = findByFlightNumber(flightNumber);
+        Gate gate = gateService.findAvailableGate();
 
         if(flight.isAssignedToGate()) {
             log.info("Relocating the flight: {} from the gate: {} to a new gate", flightNumber, flight.getGate().getGateName());
-            gateService.makeGateAvailable(flight.getGate().getGateName());
+            gateService.makeGateAvailable(flight.getGate().getId());
         }
-
-        Gate gate = gateService.findAvailableGate();
 
         flight.linkGate(gate);
         gate.setInUse(true);
