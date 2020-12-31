@@ -1,11 +1,15 @@
 package com.airport.mgmt.config.security;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -15,9 +19,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.accountUserService = accountUserService;
     }
 
+    @Bean
+    public DaoAuthenticationProvider authProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(accountUserService);
+        authProvider.setPasswordEncoder(encoder());
+        return authProvider;
+    }
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(accountUserService);
+        auth.authenticationProvider(authProvider());
     }
 
     // @formatter:off
@@ -26,12 +38,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf()
                     .disable()
+                .headers()
+                    .frameOptions()
+                        .disable()
+                    .and()
                 .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.ALWAYS).and()
+                    .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+                    .and()
                 .authorizeRequests()
                     .antMatchers(HttpMethod.POST, "gates/updateAvailability")
                         .hasRole("ADMIN")
-                    .anyRequest().authenticated()
+                    .antMatchers("/h2-console/**")
+                        .permitAll()
+                    .anyRequest()
+                        .authenticated()
                     .and().httpBasic();
     }
+
+    @Bean
+    public PasswordEncoder encoder() {
+        return new BCryptPasswordEncoder();
+    }
+
 }

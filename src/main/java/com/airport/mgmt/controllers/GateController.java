@@ -6,7 +6,6 @@
 
 package com.airport.mgmt.controllers;
 
-import com.airport.mgmt.domain.Flight;
 import com.airport.mgmt.resources.GateAvailabilityResource;
 import com.airport.mgmt.services.GateService;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +36,6 @@ public class GateController {
     public void makeGateAvailable(@RequestParam Long gateId){
         service.makeGateAvailable(gateId);
         log.info("Gate {} is now available", gateId);
-
     }
 
     /**

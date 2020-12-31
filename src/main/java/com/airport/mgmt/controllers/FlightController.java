@@ -39,7 +39,6 @@ public class FlightController {
     public Flight assignGate(@RequestParam String flightNumber) {
         log.info("Assigning gate to flight: {}", flightNumber);
         return flightService.assignGate(flightNumber);
-
     }
 
 }

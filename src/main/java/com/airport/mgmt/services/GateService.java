@@ -33,12 +33,14 @@ public class GateService {
      * Gate availability is based on availableFrom and availableTo fields, as well as inUse
      * property which specifies if gate is busy with another plane.
      *
+     * If a gate is not available, response with NOT_FOUND status is returned back.
+     *
      * @return      available gate
      * @see         Gate
      */
     public Gate findAvailableGate() {
         List<Gate> availableGates =
-                repository.findAllByAvailableFromLessThanAndAvailableToGreaterThanAndInUse(LocalTime.now(), LocalTime.now(), false);
+                repository.findAllByAvailableFromLessThanEqualAndAvailableToGreaterThanEqualAndInUse(LocalTime.now(), LocalTime.now(), false);
         if (!availableGates.isEmpty()) return availableGates.get(0);
         else throw new ResponseStatusException(HttpStatus.NOT_FOUND, "All gates are busy at the moment!");
     }

@@ -10,7 +10,6 @@ import com.airport.mgmt.domain.Gate;
 import org.springframework.data.repository.*;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +17,7 @@ import java.util.Optional;
 @Repository
 public interface GateRepository extends CrudRepository<Gate, Long> {
 
-    List<Gate> findAllByAvailableFromLessThanAndAvailableToGreaterThanAndInUse(LocalTime now, LocalTime now1, boolean b);
+    List<Gate> findAllByAvailableFromLessThanEqualAndAvailableToGreaterThanEqualAndInUse(LocalTime now, LocalTime now1, boolean b);
 
     Optional<Gate> findByGateName(String gateName);
 }
